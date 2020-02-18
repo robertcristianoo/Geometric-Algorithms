@@ -1,33 +1,53 @@
-#include <iostream>
+# include <iostream>
+# include <vector>
 
-#include "Ponto.hpp"
+# include "Ponto.hpp"
 
 using namespace std;
 
-int main(int argc, char * argv[]) {
-    Point polygon1[] = {{0, 0}, {10, 0}, {10, 10}, {0, 10}};
-	int n = sizeof(polygon1)/sizeof(polygon1[0]);
-	Point p = {20, 20};
-	isInside(polygon1, n, p)? cout << "Yes \n": cout << "No \n";
+#define EMCIMA 0
+#define FORA -1
+#define DENTRO 1
 
-	p = {5, 5};
-	isInside(polygon1, n, p)? cout << "Yes \n": cout << "No \n";
+int main() {
 
-	Point polygon2[] = {{0, 0}, {5, 5}, {5, 0}};
-	p = {3, 3};
-	n = sizeof(polygon2)/sizeof(polygon2[0]);
-	isInside(polygon2, n, p)? cout << "Yes \n": cout << "No \n";
+    // n = quantidade de vértices do poligono
+    // p_x = coordenada x do ponto de entrada
+    // p_y = coordenada y do ponto de entrada
+    int n, p_x, p_y;
 
-	p = {5, 1};
-	isInside(polygon2, n, p)? cout << "Yes \n": cout << "No \n";
+    cin>>n;
 
-	p = {8, 1};
-	isInside(polygon2, n, p)? cout << "Yes \n": cout << "No \n";
+    // vetor de segmentos que forma um poligono
+    vector <Ponto> poligono;
 
-	Point polygon3[] = {{0, 0}, {10, 0}, {10, 10}, {0, 10}};
-	p = {-1,10};
-	n = sizeof(polygon3)/sizeof(polygon3[0]);
-	isInside(polygon3, n, p)? cout << "Yes \n": cout << "No \n";
+    // leitura do poligono
+    for (int i = 0; i < n; ++i) {
+        int a, b;
 
-	return 0;
+        cin>>a>>b;
+
+        poligono.push_back(Ponto(a, b));
+    }
+
+    // leitura do ponto p
+    cin>>p_x>>p_y;
+
+    Ponto p(p_x, p_y);
+
+    // função que verifica se o ponto está:
+    // "DENTRO"	caso	o	ponto	a	esteja	dentro	do	polígono;
+    // "FORA"	caso	o	ponto	esteja	fora	do	polígono;
+    // "EM	CIMA"	caso	o	ponto	esteja	em	cima	do	polígono.
+    int pos = p.checkPos(poligono, n, p);
+
+    if (pos == FORA) {
+        cout<<"FORA"<<endl;
+    }else if (pos == EMCIMA) {
+        cout<<"EM CIMA"<<endl;
+    } else {
+        cout<<"DENTRO"<<endl;
+    }
+
+    return 0;
 }
