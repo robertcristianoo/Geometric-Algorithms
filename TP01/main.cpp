@@ -1,4 +1,5 @@
 # include <iostream>
+# include <stdio.h>
 # include <vector>
 
 # include "Ponto.hpp"
@@ -11,43 +12,71 @@ using namespace std;
 
 int main() {
 
-    // n = quantidade de vértices do poligono
-    // p_x = coordenada x do ponto de entrada
-    // p_y = coordenada y do ponto de entrada
-    int n, p_x, p_y;
+    int n, cnt = 1;
 
-    cin>>n;
+    do {
+        // n = quantidade de vértices do poligono
+        // p_x = coordenada x do ponto de entrada
+        // p_y = coordenada y do ponto de entrada
+        int p_x, p_y;
 
-    // vetor de segmentos que forma um poligono
-    vector <Ponto> poligono;
+        cin>>n;
 
-    // leitura do poligono
-    for (int i = 0; i < n; ++i) {
-        int a, b;
+        if (!n) return 0;
 
-        cin>>a>>b;
+        // vetor de segmentos que forma um poligono
+        vector <Ponto> poligono;
 
-        poligono.push_back(Ponto(a, b));
-    }
+        // leitura do poligono
+        for (int i = 0; i < n; ++i) {
+            int a, b;
 
-    // leitura do ponto p
-    cin>>p_x>>p_y;
+            cin>>a>>b;
 
-    Ponto p(p_x, p_y);
+            poligono.push_back(Ponto(a, b));
+        }
 
-    // função que verifica se o ponto está:
-    // "DENTRO"	caso	o	ponto	a	esteja	dentro	do	polígono;
-    // "FORA"	caso	o	ponto	esteja	fora	do	polígono;
-    // "EM	CIMA"	caso	o	ponto	esteja	em	cima	do	polígono.
-    int pos = p.checkPos(poligono, n, p);
+        int flag_x, flag_y, m;
 
-    if (pos == FORA) {
-        cout<<"FORA"<<endl;
-    }else if (pos == EMCIMA) {
-        cout<<"EM CIMA"<<endl;
-    } else {
-        cout<<"DENTRO"<<endl;
-    }
+        cin>>flag_x>>flag_y>>m;
+
+        Ponto flag(flag_x, flag_y);
+
+        int flag_pos = flag.checkPos(poligono, n, flag);
+        flag_pos++;
+
+        cout<<"Instancia "<<cnt<<endl;
+
+        for (int i = 0; i < m; ++i) {
+            // leitura do ponto p
+            cin>>p_x>>p_y;
+
+            Ponto p(p_x, p_y);
+
+            // função que verifica se o ponto está:
+            // "DENTRO"	caso	o	ponto	a	esteja	dentro	do	polígono;
+            // "FORA"	caso	o	ponto	esteja	fora	do	polígono;
+            // "EM	CIMA"	caso	o	ponto	esteja	em	cima	do	polígono.
+            int pos = p.checkPos(poligono, n, p);
+
+            if (!flag_pos) {
+                if (pos == FORA) {
+                    cout<<"soldado "<<i+1<<" "<<"defender"<<endl;
+                } else {
+                    cout<<"soldado "<<i+1<<" "<<"espanhol"<<endl;
+                }
+            } else {
+                if (pos == FORA) {
+                    cout<<"soldado "<<i+1<<" "<<"espanhol"<<endl;
+                } else {
+                    cout<<"soldado "<<i+1<<" "<<"defender"<<endl;
+                }
+            }
+        }
+
+        printf("\n");
+        cnt++;
+    }while(n!=0);
 
     return 0;
 }

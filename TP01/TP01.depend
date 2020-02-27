@@ -12,3 +12,16 @@
 	"Ponto.hpp"
 	<iostream>
 
+1582807148 source:c:\users\ifnmg\documents\geometric-algorithms\tp01\main.cpp
+	<iostream>
+	<vector>
+	"Ponto.hpp"
+
+1582807148 c:\users\ifnmg\documents\geometric-algorithms\tp01\ponto.hpp
+	<iostream>
+	<vector>
+
+1582807148 source:c:\users\ifnmg\documents\geometric-algorithms\tp01\ponto.cpp
+	"Ponto.hpp"
+	<iostream>
+
