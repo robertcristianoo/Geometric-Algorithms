@@ -9,21 +9,46 @@ using namespace std;
 class Ponto {
 public:
     double x, y;
+
+    /**
+      *  Construtor da classe Ponto. Sendo as duas coordenadas x e y, como pa-
+      *  rametros padrões para criação.
+         @return Ponto
+      */
     Ponto(double x, double y);
 
-    // Dado o segmento 'a-b', verifica se o ponto 'c' está sobre o segmento 'a-b'
+    /**
+      *  Dado o segmento 'a-b', verifica se o ponto 'c' está sobre o segmento
+      *  'a-b'.
+      *  @return bool "false" caso o ponto não esteja sobre o segmento;
+                      "true"  caso o ponto esteja sobre o segmento.
+      */
     bool inSegment(Ponto a, Ponto b, Ponto c);
 
-    // Calcula a orientacao da tripla de pontos 'a, b e c'
-    // 0 --> a, b e c são colineares
-    // 1 --> sentido horário
-    // 2 --> sentido anti-horário
+    /**
+      *  Calcula a orientacao da tripla de pontos 'a, b e c'.
+      *  @return double "0" caso 'a', 'b' e 'c' sejam colineares;
+      *                 "1" caso o sentido seja horário;
+      *                 "2" caso o sentido seja anti-horário.
+      */
     double orientation(Ponto a, Ponto b, Ponto c);
 
-    // Verifica se o segmento 'a-b' cruza com o segmento 'c-d'
+    /**
+      *  Verifica se o segmento 'a-b' cruza com o segmento 'c-d'.
+      *  @return bool "false" caso não haja interseção entre os segmentos;
+      *               "true"  caso haja interseção.
+      */
     bool checkIntersect(Ponto a, Ponto b, Ponto c, Ponto d);
 
-    // Verifica se o ponto 'a' está dentro, fora ou no 'poligono' de 'n' vértices
+    /**
+      *  Função que verifica em qual lado de um poligono simples, o ponto 'a'
+      *  se encontra. Percorrendo por todos os vértices do poligono em forma
+      *  circular, ou seja, começando a partir do segmento '0-1' até o último
+      *  segmento 'n-0'.
+      *  @return int "DENTRO"  caso o ponto esteja dentro do	polígono;
+      *              "FORA"    caso o ponto esteja fora do polígono;
+      *              "EM CIMA" caso o ponto esteja em cima do polígono.
+      */
     int checkPos(vector <Ponto> poligono, int n, Ponto a);
 };
 

@@ -29,7 +29,7 @@ bool Ponto::inSegment(Ponto a, Ponto b, Ponto c) {
 
 double Ponto::orientation(Ponto a, Ponto b, Ponto c) {
     double val = (b.y - a.y) * (c.x - b.x) -
-              (b.x - a.x) * (c.y - b.y);
+                 (b.x - a.x) * (c.y - b.y);
 //              cout<<val<<endl;
 
     if (val == 0)
@@ -70,38 +70,41 @@ bool Ponto::checkIntersect(Ponto a, Ponto b, Ponto c, Ponto d) {
 
 int Ponto::checkPos(vector <Ponto> poligono, int n, Ponto a) {
     // cria um ponto no infinito
-    Ponto p_infinito(INF, a.y);
+    Ponto p_inf(INF, a.y);
 
     int cnt = 0, i = 0;
-    // percorre todos os vértices do poligono
+
     do {
         int next = (i + 1) % n;
 
-        if (p_infinito.y == poligono[i].y || p_infinito.y == poligono[next].y) {
-            p_infinito.y = p_infinito.y + EPSILON;
-//        cout<<EPSILON<<endl;
+        /** Caso o segmento 'a-p_inf', que corta o poligono do ponto 'a' até o INF,
+         esteja sobre algum vértice do poligono, soma-se um valor EPSILON na coor-
+         denada y do ponto 'p_inf', para que o algoritmo conte corretamente quantas
+         vezes existe uma troca de lado (DENTRO ou FORA), evitando assim, contar o
+         mesmo vértice para dois segmentos consecutivos.
+         */
+        if (p_inf.y == poligono[i].y || p_inf.y == poligono[next].y) {
+            p_inf.y = p_inf.y + EPSILON;
+//            cout<<EPSILON<<endl;
         }
 
-        // se o segmento 'i-next' possui interseção com o segmento 'a-p_infinito'
-        if (checkIntersect(poligono[i], poligono[next], a, p_infinito)) {
+        // se o segmento 'i-next' possui interseção com o segmento 'a-p_inf'
+        // então existe uma troca de lado, incrementando o contador 'cnt'
+        if (checkIntersect(poligono[i], poligono[next], a, p_inf)) {
 //            cout<<"("<<poligono[i].x<<" ,"<<poligono[i].y<<") -> ";
 //            cout<<"("<<poligono[next].x<<" ,"<<poligono[next].y<<")"<<endl;
-            // se o ponto 'a' é colinear ao segmento 'i-next'
-            // e está sobre o segmento 'i-next'
-            // então o ponto 'a' está EMCIMA do segmento 'i-next'
+
+            /** Caso especial em que o ponto 'a' encontra-se sobre uma aresta do
+                poligono, logo a busca é encerrada e o resultado retornado.
+            */
             if (orientation(poligono[i], poligono[next], a) == 0 &&
                     inSegment(poligono[i], poligono[next], a)) {
 //                cout<<"EMCIMA"<<endl;
                 return EMCIMA;
             }
 
-//            if (poligono[i].y == poligono[next].y) {
-//                cout<<"CRUZOU"<<endl;
-//                cnt++;
-//            } else if (orientation(a, p_infinito, poligono[next]) != 0){
-//                cout<<"CRUZOU"<<endl;
+//            cout<<"CRUZOU"<<endl;
             cnt++;
-//            }
         }
 
         // avança para o próximo vértice e continua a contagem
@@ -110,5 +113,11 @@ int Ponto::checkPos(vector <Ponto> poligono, int n, Ponto a) {
 
 //    cout<<"cnt = "<<cnt<<endl;
 
+    /** Como provado pelo 'Jordan curve theorem', se o número de colisões entre
+    o segmento 'a-p_inf' e o poligono for par, significa que o ponto não se en-
+    contra no lado interior do poligono. Por outro lado, se a quantidade de co-
+    lisões for ímpar, o ponto de consulta está dentro do poligono.
+    Refer https://en.wikipedia.org/wiki/Jordan_curve_theorem
+    */
     return (cnt % 2 == 1) ? DENTRO : FORA;
 }

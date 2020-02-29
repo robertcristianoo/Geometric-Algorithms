@@ -12,73 +12,42 @@ using namespace std;
 
 int main() {
 
-    int n, cnt = 1;
+    int n;
+    // n = quantidade de vértices do poligono
+    // p_x = coordenada x do ponto de entrada
+    // p_y = coordenada y do ponto de entrada
+    double p_x, p_y;
 
-    do {
-        // n = quantidade de vértices do poligono
-        // p_x = coordenada x do ponto de entrada
-        // p_y = coordenada y do ponto de entrada
-        double p_x, p_y;
+    cin>>n;
 
-        cin>>n;
+    if (!n)
+        return 0;
 
-        if (!n)
-            return 0;
+    vector <Ponto> poligono;
 
-        // vetor de segmentos que forma um poligono
-        vector <Ponto> poligono;
+    // leitura do poligono
+    for (int i = 0; i < n; ++i) {
+        double x, y;
 
-        // leitura do poligono
-        for (int i = 0; i < n; ++i) {
-            double x, y;
+        cin>>x>>y;
 
-            cin>>x>>y;
+        poligono.push_back(Ponto(x, y));
+    }
 
-            poligono.push_back(Ponto(x, y));
-        }
+    // leitura do ponto p
+    cin>>p_x>>p_y;
 
-        double flag_x, flag_y;
-        int m;
+    Ponto p(p_x, p_y);
 
-        cin>>flag_x>>flag_y>>m;
+    int pos = p.checkPos(poligono, n, p);
 
-        Ponto flag(flag_x, flag_y);
-
-        int flag_pos = flag.checkPos(poligono, n, flag);
-        flag_pos++;
-
-        cout<<"Instancia "<<cnt<<endl;
-
-        for (int i = 0; i < m; ++i) {
-            // leitura do ponto p
-            cin>>p_x>>p_y;
-
-            Ponto p(p_x, p_y);
-
-            // função que verifica se o ponto está:
-            // "DENTRO"	caso	o	ponto	a	esteja	dentro	do	polígono;
-            // "FORA"	caso	o	ponto	esteja	fora	do	polígono;
-            // "EM	CIMA"	caso	o	ponto	esteja	em	cima	do	polígono.
-            int pos = p.checkPos(poligono, n, p);
-
-            if (!flag_pos) {
-                if (pos == FORA || pos == EMCIMA) {
-                    cout<<"soldado "<<i+1<<" "<<"defender"<<endl;
-                } else {
-                    cout<<"soldado "<<i+1<<" "<<"espanhol"<<endl;
-                }
-            } else {
-                if (pos == FORA) {
-                    cout<<"soldado "<<i+1<<" "<<"espanhol"<<endl;
-                } else {
-                    cout<<"soldado "<<i+1<<" "<<"defender"<<endl;
-                }
-            }
-        }
-
-        printf("\n");
-        cnt++;
-    } while(n!=0);
+    if (pos == FORA) {
+        cout<<"FORA"<<endl;
+    } else if (pos == DENTRO) {
+        cout<<"DENTRO"<<endl;
+    } else {
+        cout<<"EM CIMA"<<endl;
+    }
 
     return 0;
 }
