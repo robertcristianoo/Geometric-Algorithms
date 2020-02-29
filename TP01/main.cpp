@@ -1,3 +1,10 @@
+/**
+  *  Author: Robert Cristiano
+  *  last edit: 28/02/2020
+  *  by: Robert Cristiano
+  *  refer: https://github.com/robertcristianoo/Geometric-Algorithms/tree/master/TP01
+  */
+
 # include <iostream>
 # include <stdio.h>
 # include <vector>
