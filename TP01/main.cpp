@@ -18,25 +18,27 @@ int main() {
         // n = quantidade de vértices do poligono
         // p_x = coordenada x do ponto de entrada
         // p_y = coordenada y do ponto de entrada
-        int p_x, p_y;
+        double p_x, p_y;
 
         cin>>n;
 
-        if (!n) return 0;
+        if (!n)
+            return 0;
 
         // vetor de segmentos que forma um poligono
         vector <Ponto> poligono;
 
         // leitura do poligono
         for (int i = 0; i < n; ++i) {
-            int a, b;
+            double x, y;
 
-            cin>>a>>b;
+            cin>>x>>y;
 
-            poligono.push_back(Ponto(a, b));
+            poligono.push_back(Ponto(x, y));
         }
 
-        int flag_x, flag_y, m;
+        double flag_x, flag_y;
+        int m;
 
         cin>>flag_x>>flag_y>>m;
 
@@ -60,7 +62,7 @@ int main() {
             int pos = p.checkPos(poligono, n, p);
 
             if (!flag_pos) {
-                if (pos == FORA) {
+                if (pos == FORA || pos == EMCIMA) {
                     cout<<"soldado "<<i+1<<" "<<"defender"<<endl;
                 } else {
                     cout<<"soldado "<<i+1<<" "<<"espanhol"<<endl;
@@ -76,7 +78,7 @@ int main() {
 
         printf("\n");
         cnt++;
-    }while(n!=0);
+    } while(n!=0);
 
     return 0;
 }

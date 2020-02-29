@@ -1,16 +1,18 @@
 # depslib dependency file v1.0
-1582048246 source:e:\ifnmg\8º periodo\geometric-algorithms\tp01\main.cpp
+1582932799 source:e:\ifnmg\8º periodo\geometric-algorithms\tp01\main.cpp
 	<iostream>
+	<stdio.h>
 	<vector>
 	"Ponto.hpp"
 
-1582048542 e:\ifnmg\8º periodo\geometric-algorithms\tp01\ponto.hpp
+1582934104 e:\ifnmg\8º periodo\geometric-algorithms\tp01\ponto.hpp
 	<iostream>
 	<vector>
 
-1582051928 source:e:\ifnmg\8º periodo\geometric-algorithms\tp01\ponto.cpp
+1582934480 source:e:\ifnmg\8º periodo\geometric-algorithms\tp01\ponto.cpp
 	"Ponto.hpp"
 	<iostream>
+	<limits>
 
 1582807148 source:c:\users\ifnmg\documents\geometric-algorithms\tp01\main.cpp
 	<iostream>
