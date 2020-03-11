@@ -19,10 +19,6 @@ using namespace std;
 #define FORA -1
 #define DENTRO 1
 
-bool sortFunction(const pair <Ponto, int> &a, const pair <Ponto, int> &b) {
-    return (a.second < b.second);
-}
-
 int main() {
 
     int n;
@@ -36,7 +32,10 @@ int main() {
     if (!n)
         return 0;
 
-    vector <pair <Ponto, int> > poligono;
+    vector <Ponto> poligono;
+
+    Ponto minimo, maximo;
+    int pos_min_x, pox_max_x;
 
     // leitura do poligono
     for (int i = 0; i < n; ++i) {
@@ -44,61 +43,79 @@ int main() {
 
         cin>>x>>y;
 
-        poligono.push_back(make_pair(Ponto(x, y), -1));
-    }
-
-    // cria um ponto central à três vértices, não colineares entre si, do poligono
-    int it = 0;
-
-    Ponto centro, p1, p2,p3;
-
-    do {
-        it = (it + 1) % n;
-
-        p1 = poligono[it].first;
-        p2 = poligono[++it].first;
-        p3 = poligono[it+1].first;
-
-        centro.x = (p1.x + p2.x + p3.x)/3;
-        centro.y = (p1.y + p2.y + p3.y)/3;
-
-    } while(!centro.orientation(p1, p2, p3));
-
-    cout<<"Centro = ("<<centro.x<<", "<<centro.y<<")"<<endl;
-
-    for(int i = 0; i < n; ++i) {
-        if (poligono[i].first.y >= centro.y) {
-            poligono[i].second = 1;
-        } else {
-            poligono[i].second = 0;
+        if (!i) {
+            minimo = maximo = Ponto(x, y);
+            pox_max_x = pos_min_x = i;
+        } else if (x <= minimo.x && y <= minimo.y) {
+            minimo = Ponto(x, y);
+            pos_min_x = i;
+        } else if (x >= maximo.x && y >= maximo.y) {
+            maximo = Ponto(x, y);
+            pox_max_x = i;
         }
+
+        poligono.push_back(Ponto(x, y));
     }
 
-    sort(poligono.begin(), poligono.end(), sortFunction);
+    //    cout<<"max=("<<maximo.x<<","<<maximo.y<<")"<<endl;
+    //    cout<<"min=("<<minimo.x<<","<<minimo.y<<")"<<endl;
 
-    for(auto a : poligono) {
-        cout<<"P = ("<<a.first.x<<", "<<a.first.y<<")"<<endl;
-    }
+//    poligono.rotate(poligono.begin(), poligono.end() + pox_max_x, poligono.end());
 
     // quantidade de pontos que serão checados
     int q;
 
-//    for (int i = 0; i < q; ++i) {
-//        // leitura do q-ésimo ponto
-//        cin>>p_x>>p_y;
-//
-//        Ponto p(p_x, p_y);
-//
-//        int pos = p.checkPos(poligono, n, p, centro);
-//
-//        if (pos == FORA) {
-//            cout<<"FORA"<<endl;
-//        } else if (pos == DENTRO) {
-//            cout<<"DENTRO"<<endl;
-//        } else {
-//            cout<<"EM CIMA"<<endl;
-//        }
-//    }
+    cin>>q;
+
+    for (int i = 0; i < q; ++i) {
+        // leitura do q-ésimo ponto
+        cin>>p_x>>p_y;
+
+        int pos;
+
+        Ponto p(p_x, p_y);
+
+        // verfica de qual lado do vetor 'pi-pj' o ponto 'p' está
+        int lado = p.orientation(poligono[pos_min_x], poligono[pox_max_x], p);
+
+        // se estiver a direita, executa busca binária no subconjunto 'pi..pj'
+        if (lado == 1) {
+            pos = p.binarySearch(poligono, pos_min_x, pox_max_x, p);
+            // se estiver a esquerda,
+        } else if (lado == 2) {
+            // verifica o caso especial do último triângulo
+            int o1 = p.orientation(poligono[n-1], poligono[0], p);
+            int o2 = p.orientation(poligono[0], poligono[n-2], p);
+            int o3 = p.orientation(poligono[n-2], poligono[n-1], p);
+
+            if (!o2 || !o3) pos = EMCIMA;
+            else if (o1 >= 0 && o2 >= 0 && o3 >= 0) pos = DENTRO;
+            else pos = FORA;
+                // c.c executa a busca binária no subconjunto 'pj..pn-1'
+            } else
+                pos = p.binarySearch(poligono, pox_max_x, n-1, p);
+            // se for colinear (sobre o vetor), verifica se o vetor 'pi-pj' é uma aresta,
+            // caso seja, o ponto está EM CIMA do poligono. C.C dentro.
+        } else {
+            int o1 = p.orientation(poligono[0], poligono[1], p);
+            int o2 = p.orientation(poligono[n-1], poligono[0], p);
+            if (o1 == 1 && o2 == 1)
+                pos = DENTRO;
+            else if (o1 == 2 && o2 == 2)
+                pos = FORA;
+            else {
+                pos = EMCIMA;
+            }
+        }
+
+        if (pos == FORA) {
+            cout<<"FORA"<<endl;
+        } else if (pos == DENTRO) {
+            cout<<"DENTRO"<<endl;
+        } else {
+            cout<<"EM CIMA"<<endl;
+        }
+    }
 
     return 0;
 }

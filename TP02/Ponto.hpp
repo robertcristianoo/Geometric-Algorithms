@@ -31,16 +31,9 @@ public:
       *  Calcula a orientacao da tripla de pontos 'a, b e c'.
       *  @return double "0" caso 'a', 'b' e 'c' sejam colineares;
       *                 "1" caso o sentido seja horário;
-      *                 "2" caso o sentido seja anti-horário.
+      *                 "-1" caso o sentido seja anti-horário.
       */
     double orientation(Ponto a, Ponto b, Ponto c);
-
-    /**
-      *  Verifica se o segmento 'a-b' cruza com o segmento 'c-d'.
-      *  @return bool "false" caso não haja interseção entre os segmentos;
-      *               "true"  caso haja interseção.
-      */
-    bool checkIntersect(Ponto a, Ponto b, Ponto c, Ponto d);
 
     /**
       *  Função que verifica em qual lado de um poligono simples, o ponto 'a'
@@ -51,7 +44,9 @@ public:
       *              "FORA"    caso o ponto esteja fora do polígono;
       *              "EM CIMA" caso o ponto esteja em cima do polígono.
       */
-    int checkPos(vector <Ponto> poligono, int n, Ponto a, Ponto centro);
+    int checkPos(vector <Ponto> poligono, int n, Ponto a);
+
+    int binarySearch(vector <Ponto> poligono, int inicio, int fim, Ponto a);
 };
 
 #endif

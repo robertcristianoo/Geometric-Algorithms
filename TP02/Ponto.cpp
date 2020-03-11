@@ -37,40 +37,10 @@ double Ponto::orientation(Ponto a, Ponto b, Ponto c) {
     if (val == 0)
         return 0; // colineares
 
-    return (val > 0) ? 1 : 2; // sentido horário ou anti-horário
+    return (val > 0) ? 1 : -1; // sentido horário ou anti-horário
 }
 
-bool Ponto::checkIntersect(Ponto a, Ponto b, Ponto c, Ponto d) {
-    double o1 = orientation(a, b, c);
-    double o2 = orientation(a, b, d);
-    double o3 = orientation(c, d, a);
-    double o4 = orientation(c, d, b);
-
-    // se cruzam
-    if (o1 != o2 && o3 != o4)
-        return true;
-
-    // caso 'a', 'b' e 'c' sejam colineares e 'c' esteja sobre o segmento 'a-b'
-    if (o1 == 0 && inSegment(a, b, c))
-        return true;
-
-    // caso 'a', 'b' e 'd' sejam colineares e 'd' esteja sobre o segmento 'a-b'
-    if (o2 == 0 && inSegment(a, b, d))
-        return true;
-
-    // caso 'c', 'd' e 'a' sejam colineares e 'a' esteja sobre o segmento 'c-d'
-    if (o3 == 0 && inSegment(c, d, a))
-        return true;
-
-    // caso 'c', 'd' e 'b' sejam colineares e 'b' esteja sobre o segmento 'c-d'
-    if (o4 == 0 && inSegment(c, d, b))
-        return true;
-
-    // c.c não há interseção entre os segmentos
-    return false;
-}
-
-int Ponto::checkPos(vector <Ponto> poligono, int n, Ponto a, Ponto centro) {
+int Ponto::checkPos(vector <Ponto> poligono, int n, Ponto a) {
 
     int i = 0, cnt = 0;
 
@@ -81,4 +51,13 @@ int Ponto::checkPos(vector <Ponto> poligono, int n, Ponto a, Ponto centro) {
     } while(i != 0);
 
     return (cnt % 2 == 1) ? DENTRO : FORA;
+}
+
+int Ponto::binarySearch(vector <Ponto> poligono, int inicio, int fim, Ponto a) {
+    if ((fim - inicio) >= 3) {
+        int mid = (fim + inicio)/2;
+    }
+
+
+
 }
